@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import nlp from 'compromise';
+import { Button, Container, Input, FormGroup } from 'reactstrap';
 
 const sampleData = [
   { id: 1, name: 'Alice', city: 'Dortmund', age: 25 },
@@ -43,6 +44,28 @@ const parseCommand = (command, data) => {
     );
 
   return filteredData.slice(0, limit);
+
+  // let doc = nlp(command);
+
+  // let number = doc.values().toNumber().out("text");
+  // const limit = number ? parseInt(number, 10) : data.length;
+
+  // const cityMatch = command.match(/(?:wohnen in|aus)\s+([a-zA-ZäöüÄÖÜß]+)/i);
+  // const city = cityMatch ? cityMatch[1] : null;
+
+  // const ageMatch = command.match(/älter als (\d+)/i);
+  // const minAge = ageMatch ? parseInt(ageMatch[1], 10) : null;
+
+  // const nameMatch = command.match(/namens\s+([a-zA-ZäöüÄÖÜß]+)/i);
+  // const name = nameMatch ? nameMatch[1] : null;
+
+  // let filteredData = data;
+
+  // if (city) filteredData = filteredData.filter((user) => user.city.toLowerCase() === city.toLowerCase());
+  // if (minAge !== null) filteredData = filteredData.filter((user) => user.age > minAge);
+  // if (name) filteredData = filteredData.filter((user) => user.name.toLowerCase() === name.toLowerCase());
+
+  // return filteredData.slice(0, limit);
 };
 
 export default function CommandFilteringApp() {
@@ -56,22 +79,27 @@ export default function CommandFilteringApp() {
   };
 
   return (
+    <Container>
     <div className="p-6 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Command-Based Data Filtering</h1>
       <form onSubmit={handleCommandSubmit} className="space-y-4">
-        <input
+      <FormGroup>
+        <Input
           type="text"
           placeholder="Enter command (e.g., 'Give me 3 users from Dortmund older than 30')"
           className="w-full p-2 border rounded-lg"
           value={command}
           onChange={(e) => setCommand(e.target.value)}
+          style={{ width:"600px"}}
         />
-        <button
+        </FormGroup>
+        <Button
+        color='primary'
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
         >
           Filter Data
-        </button>
+        </Button>
       </form>
       <div className="mt-6 space-y-2">
         {results.length ? (
@@ -90,5 +118,6 @@ export default function CommandFilteringApp() {
         )}
       </div>
     </div>
+    </Container>
   );
 }
